@@ -158,14 +158,15 @@ class Countires extends Component {
                                   </Badge>
                                 )}
                               </td>
-                              <td>
+                              <td style={{ minWidth: "200px" }}>
                                 <Button
                                   size="xs"
                                   color="warning"
                                   className="mr-2"
                                   onClick={this.updateRow.bind(this, item)}
+                                  title="Update"
                                 >
-                                  <i className="fa fa-pencil" alt="Update"></i>
+                                  <i className="fa fa-pencil"></i>
                                 </Button>
                                 {!item.is_active && (
                                   <Button
@@ -177,11 +178,9 @@ class Countires extends Component {
                                       is_active: true,
                                       is_deleted: item.is_deleted,
                                     })}
+                                    title="Enable Account"
                                   >
-                                    <i
-                                      className="fa fa-check"
-                                      alt="Enable Account"
-                                    ></i>
+                                    <i className="fa fa-check"></i>
                                   </Button>
                                 )}
                                 {item.is_active && (
@@ -194,11 +193,9 @@ class Countires extends Component {
                                       is_active: false,
                                       is_deleted: item.is_deleted,
                                     })}
+                                    title="Disable Account"
                                   >
-                                    <i
-                                      className="fa fa-times"
-                                      alt="Disable Account"
-                                    ></i>
+                                    <i className="fa fa-times"></i>
                                   </Button>
                                 )}
                                 {item.user_type !== "1" && (
@@ -210,8 +207,9 @@ class Countires extends Component {
                                       is_active: item.is_active,
                                       is_deleted: true,
                                     })}
+                                    title="Delete"
                                   >
-                                    <i className="fa fa-trash" alt="Delete"></i>
+                                    <i className="fa fa-trash"></i>
                                   </Button>
                                 )}
                               </td>

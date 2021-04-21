@@ -143,7 +143,7 @@ class Users extends Component {
                                   </Badge>
                                 )}
                               </td>
-                              <td>
+                              <td style={{ minWidth: "200px" }}>
                                 <Button
                                   size="xs"
                                   color="warning"

@@ -36,8 +36,6 @@ router.post(
         errors.en_name = "City already exists";
         return res.status(400).json(errors);
       } else {
-        let icon = "";
-
         const newCity = new City({
           en_name: req.body.en_name.toLowerCase(),
           ar_name: req.body.ar_name,

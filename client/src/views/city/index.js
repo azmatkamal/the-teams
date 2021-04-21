@@ -11,6 +11,9 @@ import {
   Table,
   Button,
   Badge,
+  FormGroup,
+  Label,
+  Input,
 } from "reactstrap";
 import moment from "moment";
 import AddCity from "./addCity";
@@ -18,7 +21,7 @@ import AddCity from "./addCity";
 import { getCities, selectCity, markcity } from "../../redux/city/action";
 import { getCountries } from "../../redux/country/action";
 
-class Countires extends Component {
+class Countries extends Component {
   constructor(props) {
     super(props);
 
@@ -30,6 +33,8 @@ class Countires extends Component {
 
       // Data
       cities: [],
+      countries: [],
+      selected_filtered_country: "",
     };
   }
 
@@ -51,6 +56,10 @@ class Countires extends Component {
     }
   };
 
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
   updateRow = (city) => {
     this.toggleModal();
     if (!city) {
@@ -69,6 +78,9 @@ class Countires extends Component {
     if (nextProps && nextProps.cities) {
       this.setState({ cities: nextProps.cities });
     }
+    if (nextProps && nextProps.countries) {
+      this.setState({ countries: nextProps.countries });
+    }
   }
 
   render() {
@@ -77,7 +89,13 @@ class Countires extends Component {
       is_modal_loading,
       cities,
       show_modal,
+      countries,
+      selected_filtered_country,
     } = this.state;
+
+    let filtered_cities = selected_filtered_country
+      ? cities.filter((i) => i.country._id === selected_filtered_country)
+      : cities;
 
     return (
       <div>
@@ -89,6 +107,30 @@ class Countires extends Component {
             toggleModalLoading={this.toggleModalLoading}
             toggleTableLoading={this.toggleTableLoading}
           />
+          <Col md={12}>
+            <FormGroup>
+              <Label for="selected_filtered_country">Select Country</Label>
+              <Input
+                style={{ maxWidth: "200px" }}
+                type="select"
+                name="selected_filtered_country"
+                onChange={this.onChange}
+                id="selected_filtered_country"
+                value={selected_filtered_country}
+                placeholder="Select Country"
+              >
+                <option value="">Select Country</option>
+                {countries &&
+                  countries.map((item, idx) => {
+                    return (
+                      <option value={item._id} key={idx}>
+                        {item.en_name + " " + item.ar_name}
+                      </option>
+                    );
+                  })}
+              </Input>
+            </FormGroup>
+          </Col>
           <Col md="12">
             <LoadingOverlay
               active={is_table_loading}
@@ -122,8 +164,8 @@ class Countires extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {cities &&
-                        cities.map((item, idx) => {
+                      {filtered_cities &&
+                        filtered_cities.map((item, idx) => {
                           return (
                             <tr key={idx}>
                               <th scope="row">{idx + 1}</th>
@@ -158,14 +200,15 @@ class Countires extends Component {
                                   </Badge>
                                 )}
                               </td>
-                              <td>
+                              <td style={{ minWidth: "200px" }}>
                                 <Button
                                   size="xs"
                                   color="warning"
                                   className="mr-2"
                                   onClick={this.updateRow.bind(this, item)}
+                                  title="Update"
                                 >
-                                  <i className="fa fa-pencil" alt="Update"></i>
+                                  <i className="fa fa-pencil"></i>
                                 </Button>
                                 {!item.is_active && (
                                   <Button
@@ -177,11 +220,9 @@ class Countires extends Component {
                                       is_active: true,
                                       is_deleted: item.is_deleted,
                                     })}
+                                    title="Enable Account"
                                   >
-                                    <i
-                                      className="fa fa-check"
-                                      alt="Enable Account"
-                                    ></i>
+                                    <i className="fa fa-check"></i>
                                   </Button>
                                 )}
                                 {item.is_active && (
@@ -194,11 +235,9 @@ class Countires extends Component {
                                       is_active: false,
                                       is_deleted: item.is_deleted,
                                     })}
+                                    title="Disable Account"
                                   >
-                                    <i
-                                      className="fa fa-times"
-                                      alt="Disable Account"
-                                    ></i>
+                                    <i className="fa fa-times"></i>
                                   </Button>
                                 )}
                                 {item.user_type !== "1" && (
@@ -210,8 +249,9 @@ class Countires extends Component {
                                       is_active: item.is_active,
                                       is_deleted: true,
                                     })}
+                                    title="Delete"
                                   >
-                                    <i className="fa fa-trash" alt="Delete"></i>
+                                    <i className="fa fa-trash"></i>
                                   </Button>
                                 )}
                               </td>
@@ -234,6 +274,7 @@ const mapStateToProps = (state) => {
   return {
     city: state.city.city,
     cities: state.city.cities,
+    countries: state.country.countries,
   };
 };
 
@@ -243,5 +284,5 @@ export default withRouter(
     selectCity,
     markcity,
     getCountries,
-  })(Countires)
+  })(Countries)
 );
