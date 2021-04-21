@@ -28,7 +28,6 @@ class Login extends Component {
       password: "",
       errors: {},
     };
-    document.title = `Login`;
   }
 
   onChange = (e) => {

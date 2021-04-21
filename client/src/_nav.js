@@ -60,6 +60,11 @@ const nav = {
           icon: "icon-options-vertical",
         },
         {
+          name: "Manage Provided Services",
+          url: "/provided-services",
+          icon: "icon-options-vertical",
+        },
+        {
           name: "Manage Videos",
           url: "/videos",
           icon: "icon-options-vertical",
@@ -69,11 +74,11 @@ const nav = {
           url: "/main-ads",
           icon: "icon-options-vertical",
         },
-        {
-          name: "Manage User Roles",
-          url: "/roles",
-          icon: "icon-options-vertical",
-        },
+        // {
+        //   name: "Manage User Roles",
+        //   url: "/roles",
+        //   icon: "icon-options-vertical",
+        // },
       ],
     },
     {

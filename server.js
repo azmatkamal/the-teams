@@ -52,11 +52,29 @@ var Users = require(`./routes/${current_version}/users`);
 var Country = require(`./routes/${current_version}/country`);
 var City = require(`./routes/${current_version}/city`);
 var District = require(`./routes/${current_version}/district`);
+var Nationalities = require(`./routes/${current_version}/nationalities`);
+var field = require(`./routes/${current_version}/field`);
+var game = require(`./routes/${current_version}/game`);
+var play = require(`./routes/${current_version}/play`);
+var special = require(`./routes/${current_version}/special`);
+var ad = require(`./routes/${current_version}/ad`);
+var service = require(`./routes/${current_version}/service`);
+var district = require(`./routes/${current_version}/district`);
+var stadium = require(`./routes/${current_version}/stadium`);
 
 app.use(`/api/${current_version}/users`, Users);
 app.use(`/api/${current_version}/country`, Country);
 app.use(`/api/${current_version}/city`, City);
 app.use(`/api/${current_version}/district`, District);
+app.use(`/api/${current_version}/nationality`, Nationalities);
+app.use(`/api/${current_version}/field`, field);
+app.use(`/api/${current_version}/game`, game);
+app.use(`/api/${current_version}/play`, play);
+app.use(`/api/${current_version}/special`, special);
+app.use(`/api/${current_version}/ad`, ad);
+app.use(`/api/${current_version}/service`, service);
+app.use(`/api/${current_version}/district`, district);
+app.use(`/api/${current_version}/stadium`, stadium);
 
 // if (process.env.NODE_ENV === "production") {
 // Set static folder

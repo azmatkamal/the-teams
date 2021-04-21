@@ -6,7 +6,7 @@ import { Container } from "reactstrap";
 
 import {
   AppAside,
-  AppFooter,
+  // AppFooter,
   AppHeader,
   AppSidebar,
   AppSidebarFooter,
@@ -24,7 +24,7 @@ import PrivateRoute from "../../utils/privateRoute";
 import routes from "../../routes";
 
 const DefaultAside = React.lazy(() => import("./DefaultAside"));
-const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
+// const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
 
 class DefaultLayout extends Component {
