@@ -40,9 +40,7 @@
     "reactstrap": "^8.4.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "simple-line-icons": "^2.4.1"
-  },
-  "devDependencies": {
+    "simple-line-icons": "^2.4.1",
     "react-scripts": "^4.0.3"
   },
   "scripts": {
