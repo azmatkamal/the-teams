@@ -61,11 +61,7 @@ class DefaultHeader extends Component {
           </NavItem> */}
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav>
-              <img
-                src={this.props.user.avatar}
-                className="img-avatar"
-                alt={`${this.props.user.first_name}_${this.props.user.last_name}`}
-              />
+              <span className="p-3">{`${this.props.user.first_name} ${this.props.user.last_name}`}</span>
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem header tag="div" className="text-left">

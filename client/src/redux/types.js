@@ -41,6 +41,11 @@ export const GET_PROVIDED_SERVICES = "GET_PROVIDED_SERVICES";
 export const GET_STADIUM = "GET_STADIUM";
 export const GET_STADIUMS = "GET_STADIUMS";
 
+export const GET_VIDEO = "GET_VIDEO";
+export const GET_VIDEOS = "GET_VIDEOS";
+
+export const GET_PAGE = "GET_PAGE";
+
 // ENDDDDDDDDDDDDD
 
 export const GET_LEAD_SOURCES = "GET_LEAD_SOURCES";

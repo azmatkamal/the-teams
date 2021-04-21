@@ -13,13 +13,14 @@ const SpecialList = React.lazy(() => import("./views/special_requests/index"));
 const MainAdList = React.lazy(() => import("./views/main_ads/index"));
 const ServiceList = React.lazy(() => import("./views/provided_services/index"));
 const StadiumList = React.lazy(() => import("./views/stadium/index"));
+const PageList = React.lazy(() => import("./views/page/index"));
 
 const routes = [
   { path: "/", exact: true, name: "Home" },
   {
     path: "/videos",
     exact: true,
-    name: "Manage Videos",
+    name: "Manage Intro Videos",
     component: VideosList,
   },
   {
@@ -93,6 +94,12 @@ const routes = [
     exact: true,
     name: "Manage Main Ads",
     component: MainAdList,
+  },
+  {
+    path: "/page",
+    exact: true,
+    name: "Manage Pages",
+    component: PageList,
   },
 ];
 

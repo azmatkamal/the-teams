@@ -48,6 +48,7 @@ mongoose
   .catch((err) => console.log(err));
 
 var current_version = "v1";
+
 var Users = require(`./routes/${current_version}/users`);
 var Country = require(`./routes/${current_version}/country`);
 var City = require(`./routes/${current_version}/city`);
@@ -61,6 +62,8 @@ var ad = require(`./routes/${current_version}/ad`);
 var service = require(`./routes/${current_version}/service`);
 var district = require(`./routes/${current_version}/district`);
 var stadium = require(`./routes/${current_version}/stadium`);
+var video = require(`./routes/${current_version}/video`);
+var page = require(`./routes/${current_version}/page`);
 
 app.use(`/api/${current_version}/users`, Users);
 app.use(`/api/${current_version}/country`, Country);
@@ -75,15 +78,17 @@ app.use(`/api/${current_version}/ad`, ad);
 app.use(`/api/${current_version}/service`, service);
 app.use(`/api/${current_version}/district`, district);
 app.use(`/api/${current_version}/stadium`, stadium);
+app.use(`/api/${current_version}/video`, video);
+app.use(`/api/${current_version}/page`, page);
 
-// if (process.env.NODE_ENV === "production") {
-// Set static folder
-app.use(express.static("client/build"));
+if (process.env.NODE_ENV === "production") {
+  // Set static folder
+  app.use(express.static("client/build"));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-});
-// }
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 app.listen(port, () => {
   console.log("Server is running on port: " + port);

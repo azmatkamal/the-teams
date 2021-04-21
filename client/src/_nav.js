@@ -65,7 +65,7 @@ const nav = {
           icon: "icon-options-vertical",
         },
         {
-          name: "Manage Videos",
+          name: "Manage Intro Videos",
           url: "/videos",
           icon: "icon-options-vertical",
         },
@@ -90,6 +90,11 @@ const nav = {
       name: "Manage Profiles",
       url: "/profiles",
       icon: "icon-people",
+    },
+    {
+      name: "Manage Pages",
+      url: "/page",
+      icon: "icon-options-vertical",
     },
   ],
 };
