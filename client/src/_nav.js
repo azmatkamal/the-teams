@@ -17,22 +17,22 @@ const nav = {
         {
           name: "Manage Countries",
           url: "/countires",
-          icon: "icon-flag",
+          icon: "icon-options-vertical",
         },
         {
           name: "Manage Cities",
           url: "/cities",
-          icon: "icon-location-pin",
+          icon: "icon-options-vertical",
         },
         {
           name: "Manage Districts",
           url: "/districts",
-          icon: "icon-location-pin",
+          icon: "icon-options-vertical",
         },
         {
           name: "Manage Nationalities",
           url: "/nationalities",
-          icon: "icon-map",
+          icon: "icon-options-vertical",
         },
         {
           name: "Manage Stadiums",
@@ -62,17 +62,17 @@ const nav = {
         {
           name: "Manage Videos",
           url: "/videos",
-          icon: "icon-camrecorder",
+          icon: "icon-options-vertical",
         },
         {
           name: "Manage Main Ads",
           url: "/main-ads",
-          icon: "icon-playlist",
+          icon: "icon-options-vertical",
         },
         {
           name: "Manage User Roles",
           url: "/roles",
-          icon: "icon-user",
+          icon: "icon-options-vertical",
         },
       ],
     },
