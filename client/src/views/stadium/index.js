@@ -230,7 +230,7 @@ class Districts extends Component {
             >
               <Card>
                 <CardHeader>
-                  Manage Districts
+                  Manage Stadium
                   <Button
                     size="xs"
                     color="success"
