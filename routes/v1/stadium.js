@@ -156,7 +156,7 @@ router.get(
       .populate("city")
       .populate("district")
       .then((districts) => {
-        console.log(districts);
+        // console.log(districts);
         if (districts) return res.json(districts);
 
         return res.json([]);
