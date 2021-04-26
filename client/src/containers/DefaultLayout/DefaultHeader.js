@@ -16,8 +16,8 @@ import {
   AppNavbarBrand,
   AppSidebarToggler,
 } from "@coreui/react";
-import logo from "../../assets/img/brand/logo.svg";
-import sygnet from "../../assets/img/brand/sygnet.svg";
+import logo from "../../assets/img/brand/Goat-Logo.png";
+import sygnet from "../../assets/img/brand/Goat-Logo.png";
 
 const propTypes = {
   children: PropTypes.node,
@@ -61,7 +61,11 @@ class DefaultHeader extends Component {
           </NavItem> */}
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav>
-              <span className="p-3">{`${this.props.user.first_name} ${this.props.user.last_name}`}</span>
+              <img
+                src={this.props.user.avatar}
+                className="img-avatar"
+                alt={`${this.props.user.first_name} ${this.props.user.last_name}`}
+              />
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem header tag="div" className="text-left">
