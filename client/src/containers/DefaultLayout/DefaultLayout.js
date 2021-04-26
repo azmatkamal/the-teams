@@ -17,7 +17,7 @@ import {
   AppSidebarNav2 as AppSidebarNav,
 } from "@coreui/react";
 // sidebar nav config
-import navigation from "../../_nav";
+import defaultNavigation from "../../_nav";
 import { logoutUser } from "../../redux/auth/action";
 import PrivateRoute from "../../utils/privateRoute";
 // routes config
@@ -33,6 +33,8 @@ class DefaultLayout extends Component {
 
     this.state = {
       loading: false,
+      permissions: [],
+      navigation: { items: [] },
     };
   }
   loading = () => (
@@ -52,6 +54,30 @@ class DefaultLayout extends Component {
       if (!nextProps.auth.isAuthenticated) {
         this.props.history.push("/login");
       }
+
+      let permissions = [];
+
+      if (
+        nextProps.auth.user.permissions &&
+        nextProps.auth.user.permissions.length
+      ) {
+        permissions = nextProps.auth.user.permissions.map((i) => {
+          return i.id.link.toLowerCase().trim();
+        });
+      }
+
+      permissions.push("#");
+
+      const navigation = this.filterByProperty(
+        defaultNavigation.items,
+        "url",
+        permissions
+      );
+
+      this.setState({
+        permissions,
+        navigation: navigation ? { items: navigation } : { items: [] },
+      });
     }
   }
 
@@ -60,7 +86,35 @@ class DefaultLayout extends Component {
     this.props.logoutUser(this.props.history);
   }
 
+  filterByProperty = (array, key, value) => {
+    var i,
+      j,
+      hash = [],
+      item;
+
+    for (i = 0, j = array.length; i < j; i++) {
+      item = array[i];
+      if (
+        typeof item[key] !== "undefined" &&
+        value.includes(item[key].trim().toLowerCase())
+      ) {
+        hash.push(item);
+      }
+      if (item && typeof item["children"] !== "undefined") {
+        item["children"] = this.filterByProperty(
+          item["children"],
+          "url",
+          value
+        );
+      }
+    }
+
+    return hash;
+  };
+
   render() {
+    let { permissions, navigation } = this.state;
+
     return (
       <div className="app">
         <AppHeader fixed>
@@ -91,15 +145,22 @@ class DefaultLayout extends Component {
               <Suspense fallback={this.loading()}>
                 <Switch>
                   {routes.map((route, idx) => {
-                    return route.component ? (
-                      <PrivateRoute
-                        key={idx}
-                        path={route.path}
-                        exact={route.exact}
-                        name={route.name}
-                        component={(props) => <route.component {...props} />}
-                      />
-                    ) : null;
+                    if (
+                      route.path &&
+                      permissions.includes(route.path.toLowerCase().trim())
+                    ) {
+                      return route.component ? (
+                        <PrivateRoute
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          name={route.name}
+                          component={(props) => <route.component {...props} />}
+                        />
+                      ) : null;
+                    } else {
+                      return null;
+                    }
                   })}
                   <Redirect from="/" to="/dashboard" />
                 </Switch>

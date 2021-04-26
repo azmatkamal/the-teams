@@ -16,7 +16,7 @@ const nav = {
       children: [
         {
           name: "Manage Countries",
-          url: "/countires",
+          url: "/countries",
           icon: "icon-options-vertical",
         },
         {
@@ -74,11 +74,11 @@ const nav = {
           url: "/main-ads",
           icon: "icon-options-vertical",
         },
-        // {
-        //   name: "Manage User Roles",
-        //   url: "/roles",
-        //   icon: "icon-options-vertical",
-        // },
+        {
+          name: "Manage User Roles",
+          url: "/permissions",
+          icon: "icon-options-vertical",
+        },
       ],
     },
     {

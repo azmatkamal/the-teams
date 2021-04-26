@@ -43,6 +43,7 @@ export const loginUser = (userData, history) => (dispatch) => {
         setAuthToken(token);
         const decoded = jwt_decode(token);
         dispatch(setCurrentUser(decoded));
+        window.location.reload();
       }
     })
     .catch((err) => {

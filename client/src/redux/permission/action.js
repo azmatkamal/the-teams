@@ -1,22 +1,21 @@
 import axios from "axios";
-
 import {
-  GET_ERRORS,
+  GET_PERMISSIONS,
+  GET_PERMISSION,
   CLEAR_ALERTS,
   CLEAR_ERRORS,
-  GET_USERS,
-  GET_USER,
+  GET_ERRORS,
 } from "../types";
 
-export const markAccount = (data, loading) => (dispatch) => {
+export const markpermission = (data, loading) => (dispatch) => {
   dispatch({ type: CLEAR_ALERTS });
   dispatch({ type: CLEAR_ERRORS });
   loading();
   axios
-    .post("/api/v1/users/markaccount", data)
+    .post("/api/v1/permission/markpermission", data)
     .then((res) => {
       loading();
-      dispatch(getUsers(loading));
+      dispatch(getPermissions(loading));
     })
     .catch((err) => {
       console.log(err);
@@ -28,23 +27,23 @@ export const markAccount = (data, loading) => (dispatch) => {
     });
 };
 
-export const selectUser = (user) => (dispatch) => {
+export const selectPermission = (Country) => (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
   dispatch({
-    type: GET_USER,
-    payload: user,
+    type: GET_PERMISSION,
+    payload: Country,
   });
 };
 
-export const getUsers = (loading) => (dispatch) => {
+export const getPermissions = (loading) => (dispatch) => {
   dispatch({ type: CLEAR_ALERTS });
   dispatch({ type: CLEAR_ERRORS });
   loading();
   axios
-    .get("/api/v1/users")
+    .get("/api/v1/permission")
     .then((res) => {
       dispatch({
-        type: GET_USERS,
+        type: GET_PERMISSIONS,
         payload: res.data,
       });
       loading();
@@ -59,7 +58,7 @@ export const getUsers = (loading) => (dispatch) => {
     });
 };
 
-export const addorUpdateUser = (
+export const addorUpdatePermission = (
   data,
   isCreate,
   loading,
@@ -72,24 +71,16 @@ export const addorUpdateUser = (
 
   let req;
   if (!isCreate) {
-    req = axios.put("/api/v1/users", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    req = axios.put("/api/v1/permission", data);
   } else {
-    req = axios.post("/api/v1/users", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    req = axios.post("/api/v1/permission", data);
   }
 
   req
     .then((res) => {
       loading();
       hideModal();
-      dispatch(getUsers(tblLoading));
+      dispatch(getPermissions(tblLoading));
     })
     .catch((err) => {
       console.log(err);

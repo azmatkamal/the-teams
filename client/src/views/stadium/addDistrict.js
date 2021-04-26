@@ -238,7 +238,7 @@ class AddDistrict extends Component {
               marginBottom: "100px",
             }}
             onPlaceSelected={this.onPlaceSelected}
-            types={["(regions)"]}
+            types={[]}
           />
           {/*Marker*/}
           <Marker

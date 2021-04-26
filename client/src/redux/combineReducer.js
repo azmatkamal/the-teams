@@ -17,6 +17,7 @@ import serviceReducer from "./provided_services/reducer";
 import stadiumReducer from "./stadium/reducer";
 import videosReducer from "./videos/reducer";
 import pagesReducer from "./page/reducer";
+import permissionsReducer from "./permission/reducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -36,4 +37,5 @@ export default combineReducers({
   video: videosReducer,
   page: pagesReducer,
   users: UserReducer,
+  permission: permissionsReducer,
 });

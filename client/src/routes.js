@@ -14,6 +14,7 @@ const MainAdList = React.lazy(() => import("./views/main_ads/index"));
 const ServiceList = React.lazy(() => import("./views/provided_services/index"));
 const StadiumList = React.lazy(() => import("./views/stadium/index"));
 const PageList = React.lazy(() => import("./views/page/index"));
+const PermissionList = React.lazy(() => import("./views/permissions/index"));
 
 const routes = [
   { path: "/", exact: true, name: "Home" },
@@ -30,7 +31,7 @@ const routes = [
     component: UsersList,
   },
   {
-    path: "/countires",
+    path: "/countries",
     exact: true,
     name: "Manage Countires",
     component: CountryList,
@@ -100,6 +101,12 @@ const routes = [
     exact: true,
     name: "Manage Pages",
     component: PageList,
+  },
+  {
+    path: "/permissions",
+    exact: true,
+    name: "Manage Permissions",
+    component: PermissionList,
   },
 ];
 

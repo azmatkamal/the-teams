@@ -17,6 +17,8 @@ router.put(
     Country.findOne().then((country) => {
       if (country) {
         const data = {
+          ar_terms: req.body.ar_terms,
+          ar_privacy: req.body.ar_privacy,
           terms: req.body.terms,
           privacy: req.body.privacy,
         };
@@ -37,6 +39,8 @@ router.put(
         const newCountry = new Country({
           terms: req.body.terms,
           privacy: req.body.privacy,
+          ar_terms: req.body.ar_terms,
+          ar_privacy: req.body.ar_privacy,
         });
 
         newCountry

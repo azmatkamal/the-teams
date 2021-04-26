@@ -10,6 +10,12 @@ const CitySchema = new Schema({
   privacy: {
     type: String,
   },
+  ar_terms: {
+    type: String,
+  },
+  ar_privacy: {
+    type: String,
+  },
 });
 CitySchema.plugin(timestamp);
 

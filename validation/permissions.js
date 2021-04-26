@@ -5,18 +5,13 @@ module.exports = function validateCreateInput(data) {
   let errors = {};
 
   data.link = !isEmpty(data.link) ? data.link : "";
-  data.country = !isEmpty(data.country) ? data.country : "";
-
-  if (!Validator.isURL(data.link)) {
-    errors.link = "Link field must contain valid URL";
-  }
+  data.name = !isEmpty(data.name) ? data.name : "";
 
   if (Validator.isEmpty(data.link)) {
     errors.link = "Link field is required";
   }
-
-  if (Validator.isEmpty(data.country)) {
-    errors.country = "Country field is required";
+  if (Validator.isEmpty(data.name)) {
+    errors.name = "Name field is required";
   }
 
   return {

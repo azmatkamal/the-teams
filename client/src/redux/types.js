@@ -46,6 +46,9 @@ export const GET_VIDEOS = "GET_VIDEOS";
 
 export const GET_PAGE = "GET_PAGE";
 
+export const GET_PERMISSION = "GET_PERMISSION";
+export const GET_PERMISSIONS = "GET_PERMISSIONS";
+
 // ENDDDDDDDDDDDDD
 
 export const GET_LEAD_SOURCES = "GET_LEAD_SOURCES";

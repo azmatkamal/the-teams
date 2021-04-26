@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
 const isEmpty = require("../../validation/is-empty");
+const Uploader = require("../../config/uploader");
 
 // Load Input Validation
 const validateRegisterInput = require("../../validation/register");
@@ -41,51 +42,6 @@ router.post("/register", (req, res) => {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email.toLowerCase(),
-        user_type: "1",
-        avatar,
-        password: req.body.password,
-      });
-
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) throw err;
-          newUser.password = hash;
-          newUser
-            .save()
-            .then((user) => res.json(user))
-            .catch((err) => console.log(err));
-        });
-      });
-    }
-  });
-});
-
-router.options("/", cors());
-router.post("/", (req, res) => {
-  const { errors, isValid } = validateRegisterInput(req.body);
-
-  // Check Validation
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
-
-  User.findOne({
-    email: req.body.email.toLowerCase(),
-  }).then((user) => {
-    if (user) {
-      errors.email = "Email already exists";
-      return res.status(400).json(errors);
-    } else {
-      const avatar = gravatar.url(req.body.email.toLowerCase(), {
-        s: "200", // Size
-        r: "pg", // Rating
-        d: "mm", // Default
-      });
-
-      const newUser = new User({
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email.toLowerCase(),
         user_type: "2",
         avatar,
         password: req.body.password,
@@ -106,9 +62,66 @@ router.post("/", (req, res) => {
 });
 
 router.options("/", cors());
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  Uploader.fields([{ name: "icon", maxCount: 1 }]),
+  (req, res) => {
+    const { errors, isValid } = validateRegisterInput(req.body);
+
+    // Check Validation
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
+    User.findOne({
+      email: req.body.email.toLowerCase(),
+    }).then((user) => {
+      if (user) {
+        errors.email = "Email already exists";
+        return res.status(400).json(errors);
+      } else {
+        let avatar = gravatar.url(req.body.email.toLowerCase(), {
+          s: "200", // Size
+          r: "pg", // Rating
+          d: "mm", // Default
+        });
+
+        if (req.files.icon) {
+          avatar = req.files.icon[0].path;
+        }
+
+        const newUser = new User({
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          email: req.body.email.toLowerCase(),
+          mobile: req.body.mobile,
+          permissions: req.body.permissions,
+          user_type: "2",
+          avatar,
+          password: req.body.password,
+        });
+
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) throw err;
+            newUser.password = hash;
+            newUser
+              .save()
+              .then((user) => res.json(user))
+              .catch((err) => console.log(err));
+          });
+        });
+      }
+    });
+  }
+);
+
+router.options("/", cors());
 router.put(
   "/",
   passport.authenticate("jwt", { session: false }),
+  Uploader.fields([{ name: "icon", maxCount: 1 }]),
   (req, res) => {
     const { errors, isValid } = validateRegisterInput(req.body);
 
@@ -119,12 +132,25 @@ router.put(
 
     const user_id = req.body.id;
 
+    let permissions = [];
+    if (req.body.permissions) {
+      permissions = req.body.permissions.split(",").map((i) => ({
+        id: i,
+      }));
+    }
+
     User.findOne({ _id: user_id }).then((user) => {
       if (user) {
         const data = {
           first_name: req.body.first_name,
           last_name: req.body.last_name,
+          mobile: req.body.mobile,
+          permissions: permissions,
         };
+
+        if (req.files.icon) {
+          data.avatar = req.files.icon[0].path;
+        }
 
         const password = req.body.password;
 
@@ -185,46 +211,49 @@ router.post("/login", (req, res) => {
   const password = req.body.password;
 
   // Find user by email
-  User.findOne({ email, is_active: true, is_deleted: false }).then((user) => {
-    // Check for user
-    if (!user) {
-      errors.email = "User not found";
-      return res.status(404).json(errors);
-    }
-
-    // Check Password
-    bcrypt.compare(password, user.password).then((isMatch) => {
-      if (isMatch) {
-        // User Matched
-        const payload = {
-          id: user.id,
-          first_name: user.first_name,
-          last_name: user.last_name,
-          email: user.email,
-          avatar: user.avatar,
-          user_type: user.user_type,
-          is_active: user.is_active,
-          is_deleted: user.is_deleted,
-        }; // Create JWT Payload
-
-        // Sign Token
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          { expiresIn: 360000 },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: "Bearer " + token,
-            });
-          }
-        );
-      } else {
-        errors.password = "Password incorrect";
-        return res.status(400).json(errors);
+  User.findOne({ email, is_active: true, is_deleted: false })
+    .populate("permissions.id")
+    .then((user) => {
+      // Check for user
+      if (!user) {
+        errors.email = "User not found";
+        return res.status(404).json(errors);
       }
+
+      // Check Password
+      bcrypt.compare(password, user.password).then((isMatch) => {
+        if (isMatch) {
+          // User Matched
+          const payload = {
+            id: user.id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            permissions: user.permissions,
+            avatar: user.avatar,
+            user_type: user.user_type,
+            is_active: user.is_active,
+            is_deleted: user.is_deleted,
+          }; // Create JWT Payload
+
+          // Sign Token
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            { expiresIn: 360000 },
+            (err, token) => {
+              res.json({
+                success: true,
+                token: "Bearer " + token,
+              });
+            }
+          );
+        } else {
+          errors.password = "Password incorrect";
+          return res.status(400).json(errors);
+        }
+      });
     });
-  });
 });
 
 router.options("/changepassword", cors());
@@ -349,6 +378,7 @@ router.get(
       first_name: req.user.first_name,
       last_name: req.user.last_name,
       user_type: req.user.user_type,
+      permissions: req.user.permissions,
       email: req.user.email.toLowerCase(),
     });
   }
@@ -362,6 +392,7 @@ router.get(
     // Find user by email
     User.find({ is_deleted: false })
       .sort({ createdAt: -1 })
+      .populate("permissions.id")
       .then((users) => {
         if (users) return res.json(users);
 

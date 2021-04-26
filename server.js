@@ -64,6 +64,7 @@ var district = require(`./routes/${current_version}/district`);
 var stadium = require(`./routes/${current_version}/stadium`);
 var video = require(`./routes/${current_version}/video`);
 var page = require(`./routes/${current_version}/page`);
+var permission = require(`./routes/${current_version}/permission`);
 
 app.use(`/api/${current_version}/users`, Users);
 app.use(`/api/${current_version}/country`, Country);
@@ -80,6 +81,7 @@ app.use(`/api/${current_version}/district`, district);
 app.use(`/api/${current_version}/stadium`, stadium);
 app.use(`/api/${current_version}/video`, video);
 app.use(`/api/${current_version}/page`, page);
+app.use(`/api/${current_version}/permission`, permission);
 
 if (process.env.NODE_ENV === "production") {
   // Set static folder

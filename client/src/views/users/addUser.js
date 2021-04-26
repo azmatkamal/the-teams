@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 import {
   Row,
   Col,
@@ -16,6 +18,9 @@ import {
 } from "reactstrap";
 
 import { getUsers, addorUpdateUser } from "../../redux/users/action";
+import { getPermissions } from "../../redux/permission/action";
+
+const animatedComponents = makeAnimated();
 
 class AddUser extends Component {
   constructor(props) {
@@ -28,9 +33,12 @@ class AddUser extends Component {
       email: "",
       password: "",
       password2: "",
+      mobile: "",
       is_modal_loading: false,
       show_modal: false,
       errors: {},
+      selected_permissions: [],
+      permissions: [],
     };
   }
 
@@ -39,16 +47,29 @@ class AddUser extends Component {
   };
 
   componentDidMount() {
+    this.props.getPermissions(() => {});
     this.setState({ password2: "", password: "" });
   }
 
+  onFileSelect = (e) => {
+    this.setState({ icon: e.target.files[0] });
+  };
+
   componentWillReceiveProps(nextProps) {
     this.setState({ show_modal: nextProps.show_modal });
+    this.setState({ permissions: nextProps.permissions });
     this.setState({ is_modal_loading: nextProps.is_modal_loading });
     if (nextProps && nextProps.user) {
       this.setState({
         first_name: nextProps.user.first_name,
         last_name: nextProps.user.last_name,
+        mobile: nextProps.user.mobile ? nextProps.user.mobile : "",
+        selected_permissions:
+          nextProps.user.permissions && nextProps.user.permissions.length
+            ? nextProps.user.permissions.map((i) => {
+                return { value: i.id._id, label: i.id.name };
+              })
+            : "",
         email: nextProps.user.email,
         id: nextProps.user._id,
       });
@@ -68,21 +89,33 @@ class AddUser extends Component {
   }
 
   onSubmit = () => {
-    const data = {
-      id: this.state.id,
-      first_name: this.state.first_name,
-      last_name: this.state.last_name,
-      email: this.state.email,
-      password: this.state.password,
-      password2: this.state.password2,
-    };
+    const formData = new FormData();
+    formData.append("id", this.state.id);
+    formData.append("first_name", this.state.first_name);
+    formData.append("last_name", this.state.last_name);
+    formData.append("email", this.state.email);
+    formData.append(
+      "permissions",
+      this.state.selected_permissions && this.state.selected_permissions.length
+        ? this.state.selected_permissions.map((i) => i.value).join(",")
+        : ""
+    );
+    formData.append("mobile", this.state.mobile ? this.state.mobile : "");
+    formData.append("password", this.state.password);
+    formData.append("password2", this.state.password2);
+    formData.append("icon", this.state.icon);
 
     this.props.addorUpdateUser(
-      data,
+      formData,
+      this.state.id ? false : true,
       this.props.toggleModalLoading,
       this.props.toggleModal,
       this.props.toggleTableLoading
     );
+  };
+
+  onChangePermissions = (e) => {
+    this.setState({ selected_permissions: e });
   };
 
   render() {
@@ -92,11 +125,22 @@ class AddUser extends Component {
       email,
       password,
       password2,
+      mobile,
       id,
       is_modal_loading,
       errors,
       show_modal,
+      permissions,
+      selected_permissions,
     } = this.state;
+
+    console.log(selected_permissions, "selected_permissions");
+
+    const custom_permissions =
+      permissions &&
+      permissions.map((item) => {
+        return { value: item._id, label: item.name };
+      });
 
     return (
       <div>
@@ -177,6 +221,42 @@ class AddUser extends Component {
                   <p className="error">{errors && errors.password2}</p>
                 </FormGroup>
               )}
+              <FormGroup>
+                <Label for="mobile">Mobile</Label>
+                <Input
+                  type="text"
+                  name="mobile"
+                  onChange={this.onChange}
+                  id="mobile"
+                  placeholder="mobile"
+                  value={mobile}
+                />
+                <p className="error">{errors && errors.mobile}</p>
+              </FormGroup>
+              <FormGroup>
+                <Label for="permissions">Permissions</Label>
+                <Select
+                  closeMenuOnSelect={false}
+                  components={animatedComponents}
+                  onChange={this.onChangePermissions}
+                  defaultValue={selected_permissions}
+                  isMulti
+                  options={custom_permissions}
+                />
+                <p className="error">{errors && errors.permissions}</p>
+              </FormGroup>
+              <FormGroup>
+                <Label for="icon">Icon</Label>
+                <Input
+                  type="file"
+                  name="icon"
+                  onChange={this.onFileSelect}
+                  id="icon"
+                  placeholder="Icon"
+                  required
+                />
+                <p className="error">{errors && errors.icon}</p>
+              </FormGroup>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={this.onSubmit}>
@@ -196,11 +276,14 @@ class AddUser extends Component {
 const mapDispatchToProps = (state) => {
   return {
     users: state.users.users,
+    permissions: state.permission.permissions,
     user: state.users.user,
     errors: state.errors.errors,
   };
 };
 
 export default withRouter(
-  connect(mapDispatchToProps, { getUsers, addorUpdateUser })(AddUser)
+  connect(mapDispatchToProps, { getUsers, addorUpdateUser, getPermissions })(
+    AddUser
+  )
 );

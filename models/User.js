@@ -15,6 +15,9 @@ const UserSchema = new Schema({
   avatar: {
     type: String,
   },
+  mobile: {
+    type: String,
+  },
   email: {
     type: String,
     required: true,
@@ -23,6 +26,14 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  permissions: [
+    {
+      id: {
+        type: Schema.Types.ObjectId,
+        ref: "permission",
+      },
+    },
+  ],
   user_type: {
     type: String,
     required: true,

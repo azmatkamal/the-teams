@@ -13,11 +13,15 @@ import {
   Badge,
 } from "reactstrap";
 import moment from "moment";
-import AddUser from "./addUser";
+import AddCity from "./addCity";
 
-import { getUsers, selectUser, markAccount } from "../../redux/users/action";
+import {
+  getPermissions,
+  selectPermission,
+  markpermission,
+} from "../../redux/permission/action";
 
-class Users extends Component {
+class Countries extends Component {
   constructor(props) {
     super(props);
 
@@ -28,12 +32,12 @@ class Users extends Component {
       is_modal_loading: false,
 
       // Data
-      users: [],
+      permissions: [],
     };
   }
 
   toggleModal = () => {
-    this.setState({ show_modal: !this.state.show_modal, user: {} });
+    this.setState({ show_modal: !this.state.show_modal });
   };
 
   toggleModalLoading = () => {
@@ -44,29 +48,32 @@ class Users extends Component {
     this.setState({ is_table_loading: !this.state.is_table_loading });
   };
 
-  markAccount = (data) => {
+  markpermission = (data) => {
     if (window.confirm("Would like to proceed with this action?")) {
-      this.props.markAccount(data, this.toggleTableLoading);
+      this.props.markpermission(data, this.toggleTableLoading);
     }
   };
 
-  updateRow = (user) => {
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  updateRow = (city) => {
     this.toggleModal();
-    if (!user) {
-      this.props.selectUser({});
+    if (!city) {
+      this.props.selectPermission({});
     } else {
-      console.log(user, "user");
-      this.props.selectUser(user);
+      this.props.selectPermission(city);
     }
   };
 
   componentDidMount() {
-    this.props.getUsers(this.toggleTableLoading);
+    this.props.getPermissions(this.toggleTableLoading);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps && nextProps.users) {
-      this.setState({ users: nextProps.users.users });
+    if (nextProps && nextProps.permissions) {
+      this.setState({ permissions: nextProps.permissions });
     }
   }
 
@@ -74,14 +81,14 @@ class Users extends Component {
     const {
       is_table_loading,
       is_modal_loading,
-      users,
+      permissions,
       show_modal,
     } = this.state;
 
     return (
       <div>
         <Row>
-          <AddUser
+          <AddCity
             show_modal={show_modal}
             is_modal_loading={is_modal_loading}
             toggleModal={this.toggleModal}
@@ -96,7 +103,7 @@ class Users extends Component {
             >
               <Card>
                 <CardHeader>
-                  Manage USers
+                  Manage Permissions
                   <Button
                     size="xs"
                     color="success"
@@ -111,33 +118,21 @@ class Users extends Component {
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Avatar</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Mobile</th>
+                        <th>Name</th>
+                        <th>Link</th>
                         <th>Created At</th>
                         <th>Status</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {users &&
-                        users.map((item, idx) => {
+                      {permissions &&
+                        permissions.map((item, idx) => {
                           return (
                             <tr key={idx}>
                               <th scope="row">{idx + 1}</th>
-                              <td>
-                                <img
-                                  src={item.avatar}
-                                  style={{ maxWidth: "50px" }}
-                                  alt={item.first_name}
-                                />
-                              </td>
-                              <td>{item.first_name}</td>
-                              <td>{item.last_name}</td>
-                              <td>{item.email}</td>
-                              <td>{item.mobile}</td>
+                              <td>{item.name}</td>
+                              <td>{item.link}</td>
                               <td>
                                 {moment(item.createdAt).format("DD/MM/YYYY")} -{" "}
                                 {moment(item.createdAt).fromNow()}
@@ -159,24 +154,23 @@ class Users extends Component {
                                   color="warning"
                                   className="mr-2"
                                   onClick={this.updateRow.bind(this, item)}
+                                  title="Update"
                                 >
-                                  <i className="fa fa-pencil" alt="Update"></i>
+                                  <i className="fa fa-pencil"></i>
                                 </Button>
                                 {!item.is_active && (
                                   <Button
                                     size="xs"
                                     color="success"
                                     className="mr-2"
-                                    onClick={this.markAccount.bind(this, {
+                                    onClick={this.markpermission.bind(this, {
                                       id: item._id,
                                       is_active: true,
                                       is_deleted: item.is_deleted,
                                     })}
+                                    title="Enable Account"
                                   >
-                                    <i
-                                      className="fa fa-check"
-                                      alt="Enable Account"
-                                    ></i>
+                                    <i className="fa fa-check"></i>
                                   </Button>
                                 )}
                                 {item.is_active && (
@@ -184,29 +178,28 @@ class Users extends Component {
                                     size="xs"
                                     color="primary"
                                     className="mr-2"
-                                    onClick={this.markAccount.bind(this, {
+                                    onClick={this.markpermission.bind(this, {
                                       id: item._id,
                                       is_active: false,
                                       is_deleted: item.is_deleted,
                                     })}
+                                    title="Disable Account"
                                   >
-                                    <i
-                                      className="fa fa-times"
-                                      alt="Disable Account"
-                                    ></i>
+                                    <i className="fa fa-times"></i>
                                   </Button>
                                 )}
                                 {item.user_type !== "1" && (
                                   <Button
                                     size="xs"
                                     color="danger"
-                                    onClick={this.markAccount.bind(this, {
+                                    onClick={this.markpermission.bind(this, {
                                       id: item._id,
                                       is_active: item.is_active,
                                       is_deleted: true,
                                     })}
+                                    title="Delete"
                                   >
-                                    <i className="fa fa-trash" alt="Delete"></i>
+                                    <i className="fa fa-trash"></i>
                                   </Button>
                                 )}
                               </td>
@@ -227,10 +220,15 @@ class Users extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    users: state.users,
+    permission: state.permission.permission,
+    permissions: state.permission.permissions,
   };
 };
 
 export default withRouter(
-  connect(mapStateToProps, { getUsers, selectUser, markAccount })(Users)
+  connect(mapStateToProps, {
+    getPermissions,
+    selectPermission,
+    markpermission,
+  })(Countries)
 );
