@@ -83,6 +83,10 @@ class Countries extends Component {
     }
   }
 
+  openExternalLink = (link) => {
+    window.open(link, "_blank");
+  };
+
   render() {
     const {
       is_table_loading,
@@ -179,7 +183,17 @@ class Countries extends Component {
                                   ""
                                 )}
                               </td>
-                              <td>{item.link}</td>
+                              <td>
+                                <span
+                                  onClick={this.openExternalLink.bind(
+                                    this,
+                                    item.link
+                                  )}
+                                  style={{ color: "blue", cursor: "pointer" }}
+                                >
+                                  {item.link}
+                                </span>
+                              </td>
                               <td>
                                 {item.country.en_name} - {item.country.ar_name}
                               </td>
