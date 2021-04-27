@@ -68,6 +68,13 @@ class Districts extends Component {
 
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
+
+    if (e.target.name === "selected_filtered_city")
+      this.setState({ selected_filtered_district: "" });
+    if (e.target.name === "selected_filtered_country")
+      this.setState({ selected_filtered_city: "" });
+    if (e.target.name === "selected_filtered_country")
+      this.setState({ selected_filtered_district: "" });
   };
 
   updateRow = (district) => {
@@ -132,17 +139,17 @@ class Districts extends Component {
     let filtered_stadiums = stadiums;
 
     if (selected_filtered_country) {
-      filtered_stadiums = stadiums.filter(
+      filtered_stadiums = filtered_stadiums.filter(
         (i) => i.country._id === selected_filtered_country
       );
 
       if (selected_filtered_city) {
-        filtered_stadiums = stadiums.filter(
+        filtered_stadiums = filtered_stadiums.filter(
           (i) => i.city._id === selected_filtered_city
         );
 
         if (selected_filtered_district) {
-          filtered_stadiums = stadiums.filter(
+          filtered_stadiums = filtered_stadiums.filter(
             (i) => i.district._id === selected_filtered_district
           );
         }
