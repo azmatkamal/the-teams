@@ -85,7 +85,7 @@ class Districts extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps && nextProps.districts) {
       this.setState({
-        districts: nextProps.districts.filter((c) => c.is_active === true),
+        districts: nextProps.districts,
       });
     }
     if (nextProps && nextProps.cities) {
