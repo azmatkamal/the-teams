@@ -38,19 +38,19 @@ class AddCountry extends Component {
   };
 
   onChangePrivacy = (e) => {
-    this.setState({ privacy: e.target.getContent() });
+    this.setState({ privacy: e });
   };
 
   onChangePrivacyAR = (e) => {
-    this.setState({ ar_privacy: e.target.getContent() });
+    this.setState({ ar_privacy: e });
   };
 
   onChangeTerms = (e) => {
-    this.setState({ terms: e.target.getContent() });
+    this.setState({ terms: e });
   };
 
   onChangeTermsAR = (e) => {
-    this.setState({ ar_terms: e.target.getContent() });
+    this.setState({ ar_terms: e });
   };
 
   componentDidMount() {
@@ -113,8 +113,8 @@ class AddCountry extends Component {
                     <Label for="terms">Terms & Condition</Label>
                     <Editor
                       apiKey={API_KEY}
-                      initialValue={terms}
-                      onChange={this.onChangeTerms}
+                      value={terms}
+                      onEditorChange={this.onChangeTerms}
                       init={{
                         menubar: false,
                         branding: false,
@@ -134,8 +134,8 @@ class AddCountry extends Component {
                     <Label for="ar_terms">Terms & Condition (Arabic)</Label>
                     <Editor
                       apiKey={API_KEY}
-                      initialValue={ar_terms}
-                      onChange={this.onChangeTermsAR}
+                      value={ar_terms}
+                      onEditorChange={this.onChangeTermsAR}
                       init={{
                         menubar: false,
                         branding: false,
@@ -157,8 +157,8 @@ class AddCountry extends Component {
                     <Label for="privacy">Privacy & Policy</Label>
                     <Editor
                       apiKey={API_KEY}
-                      initialValue={privacy}
-                      onChange={this.onChangePrivacy}
+                      value={privacy}
+                      onEditorChange={this.onChangePrivacy}
                       init={{
                         menubar: false,
                         branding: false,
@@ -178,8 +178,8 @@ class AddCountry extends Component {
                     <Label for="ar_privacy">Privacy & Policy (Arabic)</Label>
                     <Editor
                       apiKey={API_KEY}
-                      initialValue={ar_privacy}
-                      onChange={this.onChangePrivacyAR}
+                      value={ar_privacy}
+                      onEditorChange={this.onChangePrivacyAR}
                       init={{
                         menubar: false,
                         branding: false,

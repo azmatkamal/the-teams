@@ -61,8 +61,8 @@ class AddUser extends Component {
     this.setState({ is_modal_loading: nextProps.is_modal_loading });
     if (nextProps && nextProps.user) {
       this.setState({
-        first_name: nextProps.user.first_name,
-        last_name: nextProps.user.last_name,
+        first_name: nextProps.user.first_name ? nextProps.user.first_name : "",
+        last_name: nextProps.user.last_name ? nextProps.user.last_name : "",
         mobile: nextProps.user.mobile ? nextProps.user.mobile : "",
         selected_permissions:
           nextProps.user.permissions && nextProps.user.permissions.length
@@ -98,7 +98,7 @@ class AddUser extends Component {
       "permissions",
       this.state.selected_permissions && this.state.selected_permissions.length
         ? this.state.selected_permissions.map((i) => i.value).join(",")
-        : ""
+        : []
     );
     formData.append("mobile", this.state.mobile ? this.state.mobile : "");
     formData.append("password", this.state.password);

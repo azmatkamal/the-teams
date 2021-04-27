@@ -67,14 +67,15 @@ class AddDistrict extends Component {
         id: nextProps.city._id,
       });
     }
-    if (nextProps && nextProps.countries) {
-      this.setState({
-        countries: nextProps.countries,
-      });
-    }
+
     if (nextProps && nextProps.cities) {
       this.setState({
-        cities: nextProps.cities,
+        cities: nextProps.cities.filter((c) => c.is_active === true),
+      });
+    }
+    if (nextProps && nextProps.countries) {
+      this.setState({
+        countries: nextProps.countries.filter((c) => c.is_active === true),
       });
     }
 

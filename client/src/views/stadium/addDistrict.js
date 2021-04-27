@@ -124,19 +124,19 @@ class AddDistrict extends Component {
         id: nextProps.stadium._id,
       });
     }
-    if (nextProps && nextProps.countries) {
+    if (nextProps && nextProps.districts) {
       this.setState({
-        countries: nextProps.countries,
+        districts: nextProps.districts.filter((c) => c.is_active === true),
       });
     }
     if (nextProps && nextProps.cities) {
       this.setState({
-        cities: nextProps.cities,
+        cities: nextProps.cities.filter((c) => c.is_active === true),
       });
     }
-    if (nextProps && nextProps.districts) {
+    if (nextProps && nextProps.countries) {
       this.setState({
-        districts: nextProps.districts,
+        countries: nextProps.countries.filter((c) => c.is_active === true),
       });
     }
     if (nextProps && nextProps.errors) {

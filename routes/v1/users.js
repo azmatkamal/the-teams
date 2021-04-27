@@ -94,9 +94,12 @@ router.post(
         const newUser = new User({
           first_name: req.body.first_name,
           last_name: req.body.last_name,
-          email: req.body.email.toLowerCase(),
+          email: req.body.email.trim().toLowerCase(),
           mobile: req.body.mobile,
-          permissions: req.body.permissions,
+          permissions:
+            req.body.permissions & Array.isArray(req.body.permissions)
+              ? req.body.permissions
+              : [],
           user_type: "2",
           avatar,
           password: req.body.password,

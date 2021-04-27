@@ -27,7 +27,7 @@ module.exports = function validateRegisterInput(data) {
     errors.last_name = "Last Name field is required";
   }
 
-  if (!Validator.isEmail(data.email)) {
+  if (!Validator.isEmail(data.email.trim())) {
     errors.email = "Email is invalid";
   }
 
