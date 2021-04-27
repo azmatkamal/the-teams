@@ -17,6 +17,7 @@ const PageList = React.lazy(() => import("./views/page/index"));
 const PermissionList = React.lazy(() => import("./views/permissions/index"));
 
 const routes = [
+  { path: "/", exact: true, name: "Home" },
   {
     path: "/videos",
     exact: true,
@@ -107,7 +108,6 @@ const routes = [
     name: "Manage Permissions",
     component: PermissionList,
   },
-  { path: "/", exact: true, name: "Home" },
 ];
 
 export default routes;
