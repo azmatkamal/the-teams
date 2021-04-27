@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 // import { Link, NavLink } from "react-router-dom";
 import {
-  // Badge,
+  Badge,
   UncontrolledDropdown,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
   Nav,
-  // NavItem,
+  NavItem,
+  NavLink,
 } from "reactstrap";
 import PropTypes from "prop-types";
 
@@ -50,14 +51,44 @@ class DefaultHeader extends Component {
           </NavItem> */}
         </Nav>
         <Nav className="ml-auto" navbar>
+          <NavItem className="d-md-down-none">
+            <NavLink to="#" className="nav-link">
+              <button
+                className={`btn btn-${
+                  localStorage.TeamsLng && localStorage.TeamsLng === "ltr"
+                    ? "primary"
+                    : "defaunt"
+                }`}
+                onClick={() => {
+                  localStorage.setItem("TeamsLng", "ltr");
+                  window.location.reload();
+                }}
+              >
+                EN
+              </button>
+            </NavLink>
+          </NavItem>
+          <NavItem className="d-md-down-none">
+            <NavLink to="#" className="nav-link">
+              <button
+                className={`btn btn-${
+                  localStorage.TeamsLng && localStorage.TeamsLng === "rtl"
+                    ? "primary"
+                    : "defaunt"
+                }`}
+                onClick={() => {
+                  localStorage.setItem("TeamsLng", "rtl");
+                  window.location.reload();
+                }}
+              >
+                AR
+              </button>
+            </NavLink>
+          </NavItem>
           {/* <NavItem className="d-md-down-none">
-            <NavLink to="#" className="nav-link"><i className="icon-bell"></i><Badge pill color="danger">5</Badge></NavLink>
-          </NavItem>
-          <NavItem className="d-md-down-none">
-            <NavLink to="#" className="nav-link"><i className="icon-list"></i></NavLink>
-          </NavItem>
-          <NavItem className="d-md-down-none">
-            <NavLink to="#" className="nav-link"><i className="icon-location-pin"></i></NavLink>
+            <NavLink to="#" className="nav-link">
+              <i className="icon-location-pin"></i>
+            </NavLink>
           </NavItem> */}
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav>

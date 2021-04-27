@@ -26,6 +26,11 @@ if (localStorage.TeamsAuth) {
   }
 }
 
+if (localStorage.TeamsLng) {
+  var html = document.getElementsByTagName("html")[0];
+  html.setAttribute("dir", localStorage.TeamsLng);
+}
+
 class App extends Component {
   render() {
     return (
