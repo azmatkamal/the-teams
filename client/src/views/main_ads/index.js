@@ -79,7 +79,9 @@ class Countries extends Component {
       this.setState({ ads: nextProps.ads });
     }
     if (nextProps && nextProps.countries) {
-      this.setState({ countries: nextProps.countries });
+      this.setState({
+        countries: nextProps.countries.filter((c) => c.is_active === true),
+      });
     }
   }
 

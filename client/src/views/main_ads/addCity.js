@@ -62,7 +62,7 @@ class AddCity extends Component {
     }
     if (nextProps && nextProps.countries) {
       this.setState({
-        countries: nextProps.countries,
+        countries: nextProps.countries.filter((c) => c.is_active === true),
       });
     }
 
