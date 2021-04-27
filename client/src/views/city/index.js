@@ -76,10 +76,14 @@ class Countries extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps && nextProps.cities) {
-      this.setState({ cities: nextProps.cities });
+      this.setState({
+        cities: nextProps.cities.filter((c) => c.is_active === true),
+      });
     }
     if (nextProps && nextProps.countries) {
-      this.setState({ countries: nextProps.countries });
+      this.setState({
+        countries: nextProps.countries.filter((c) => c.is_active === true),
+      });
     }
   }
 

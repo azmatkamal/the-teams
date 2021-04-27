@@ -90,14 +90,20 @@ class Districts extends Component {
     if (nextProps && nextProps.stadiums) {
       this.setState({ stadiums: nextProps.stadiums });
     }
-    if (nextProps && nextProps.cities) {
-      this.setState({ cities: nextProps.cities });
-    }
     if (nextProps && nextProps.districts) {
-      this.setState({ districts: nextProps.districts });
+      this.setState({
+        districts: nextProps.districts.filter((c) => c.is_active === true),
+      });
+    }
+    if (nextProps && nextProps.cities) {
+      this.setState({
+        cities: nextProps.cities.filter((c) => c.is_active === true),
+      });
     }
     if (nextProps && nextProps.countries) {
-      this.setState({ countries: nextProps.countries });
+      this.setState({
+        countries: nextProps.countries.filter((c) => c.is_active === true),
+      });
     }
   }
 
