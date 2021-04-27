@@ -141,6 +141,7 @@ class AddCountry extends Component {
                         branding: false,
                         statusbar: false,
                         height: "250px",
+                        directionality: "rtl",
                         plugins:
                           "table colorpicker spellchecker hr link textcolor print noneditable  lists",
                         toolbar:
@@ -184,6 +185,7 @@ class AddCountry extends Component {
                         menubar: false,
                         branding: false,
                         statusbar: false,
+                        directionality: "rtl",
                         height: "250px",
                         plugins:
                           "table colorpicker spellchecker hr link textcolor print noneditable  lists",
