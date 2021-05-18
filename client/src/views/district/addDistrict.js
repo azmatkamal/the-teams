@@ -58,13 +58,13 @@ class AddDistrict extends Component {
         id: null,
       });
     }
-    if (nextProps && nextProps.city && nextProps.city.en_name) {
+    if (nextProps && nextProps.district && nextProps.district.en_name) {
       this.setState({
-        en_name: nextProps.city.en_name,
-        ar_name: nextProps.city.ar_name,
-        country: nextProps.city.country._id,
-        city: nextProps.city.city._id,
-        id: nextProps.city._id,
+        en_name: nextProps.district.en_name,
+        ar_name: nextProps.district.ar_name,
+        country: nextProps.district.country._id,
+        city: nextProps.district.city._id,
+        id: nextProps.district._id,
       });
     }
 

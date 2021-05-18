@@ -77,7 +77,7 @@ class Countries extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps && nextProps.cities) {
       this.setState({
-        cities: nextProps.cities.filter((c) => c.is_active === true),
+        cities: nextProps.cities.filter((c) => c.is_deleted === false),
       });
     }
     if (nextProps && nextProps.countries) {
@@ -96,10 +96,13 @@ class Countries extends Component {
       countries,
       selected_filtered_country,
     } = this.state;
+    console.log(cities);
 
     let filtered_cities = selected_filtered_country
       ? cities.filter((i) => i.country._id === selected_filtered_country)
       : cities;
+
+    console.log(filtered_cities);
 
     return (
       <div>
