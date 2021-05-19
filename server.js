@@ -8,6 +8,8 @@ const helmet = require("helmet");
 const passport = require("passport");
 var app = express();
 var port = process.env.PORT || 5000;
+const dotenv = require("dotenv");
+dotenv.config();
 
 // Passport middleware
 app.use(passport.initialize());
