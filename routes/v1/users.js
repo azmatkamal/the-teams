@@ -32,7 +32,7 @@ router.post("/register", (req, res) => {
       errors.email = "Email already exists";
       return res.status(400).json(errors);
     } else {
-      const avatar = gravatar.url(req.body.email.toLowerCase(), {
+      const avatar = gravatar.url(req.body.email, {
         s: "200", // Size
         r: "pg", // Rating
         d: "mm", // Default
@@ -91,15 +91,19 @@ router.post(
           avatar = req.files.icon[0].path;
         }
 
+        let permissions = [];
+        if (req.body.permissions) {
+          permissions = req.body.permissions.split(",").map((i) => ({
+            id: i,
+          }));
+        }
+
         const newUser = new User({
           first_name: req.body.first_name,
           last_name: req.body.last_name,
-          email: req.body.email.trim().toLowerCase(),
+          email: req.body.email.toLowerCase().trim(),
           mobile: req.body.mobile,
-          permissions:
-            req.body.permissions & Array.isArray(req.body.permissions)
-              ? req.body.permissions
-              : [],
+          permissions: permissions,
           user_type: "2",
           avatar,
           password: req.body.password,
@@ -231,7 +235,7 @@ router.post("/login", (req, res) => {
             id: user.id,
             first_name: user.first_name,
             last_name: user.last_name,
-            email: user.email,
+            email: user.email.toLowerCase(),
             permissions: user.permissions,
             avatar: user.avatar,
             user_type: user.user_type,
@@ -382,7 +386,7 @@ router.get(
       last_name: req.user.last_name,
       user_type: req.user.user_type,
       permissions: req.user.permissions,
-      email: req.user.email.toLowerCase(),
+      email: req.user.email,
     });
   }
 );

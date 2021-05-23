@@ -14,14 +14,8 @@ import {
   Label,
   Input,
 } from "reactstrap";
-import {
-  withGoogleMap,
-  GoogleMap,
-  withScriptjs,
-  Marker,
-} from "react-google-maps";
-import Autocomplete from "react-google-autocomplete";
 import Geocode from "react-geocode";
+import Map from "./Map";
 
 import { getStadiums, addorUpdateStadium } from "../../redux/stadium/action";
 
@@ -216,50 +210,10 @@ class AddDistrict extends Component {
       marker_lng,
     } = this.state;
 
-    console.log(map_lat, map_lng, marker_lat, marker_lng);
-
-    const AsyncMap = withScriptjs(
-      withGoogleMap((props) => (
-        <GoogleMap
-          google={this.props.google}
-          defaultZoom={15}
-          defaultCenter={{
-            lat: map_lat ? map_lat : 31.963158,
-            lng: map_lng ? map_lng : 35.930359,
-          }}
-        >
-          {/* For Auto complete Search Box */}
-          <Autocomplete
-            style={{
-              width: "100%",
-              height: "40px",
-              paddingLeft: "16px",
-              marginTop: "2px",
-              marginBottom: "100px",
-            }}
-            onPlaceSelected={this.onPlaceSelected}
-            types={[]}
-          />
-          {/*Marker*/}
-          <Marker
-            google={this.props.google}
-            name={"Dolores park"}
-            draggable={true}
-            onDragEnd={this.onMarkerDragEnd}
-            position={{
-              lat: marker_lat ? marker_lat : 31.963158,
-              lng: marker_lng ? marker_lng : 35.930359,
-            }}
-          />
-          <Marker />
-        </GoogleMap>
-      ))
-    );
-
     return (
       <div>
         <LoadingOverlay active={is_modal_loading} spinner text="Please Wait...">
-          <Modal isOpen={show_modal} toggle={this.props.toggleModal}>
+          <Modal isOpen={show_modal}>
             <ModalHeader toggle={this.props.toggleModal}>
               {id ? "Update" : "Create"} Stadium
             </ModalHeader>
@@ -374,26 +328,31 @@ class AddDistrict extends Component {
                     <p className="error">{errors && errors.city}</p>
                   </FormGroup>
                 </Col>
+                <Col md={6}>
+                  <FormGroup>
+                    <Label for="icon">Icon</Label>
+                    <Input
+                      type="file"
+                      name="icon"
+                      onChange={this.onFileSelect}
+                      id="icon"
+                      placeholder="Icon"
+                      required
+                    />
+                    <p className="error">{errors && errors.icon}</p>
+                  </FormGroup>
+                </Col>
               </Row>
-              <FormGroup>
-                <Label for="icon">Icon</Label>
-                <Input
-                  type="file"
-                  name="icon"
-                  onChange={this.onFileSelect}
-                  id="icon"
-                  placeholder="Icon"
-                  required
-                />
-                <p className="error">{errors && errors.icon}</p>
-              </FormGroup>
+
               <Row>
                 <Col md="12">
-                  <AsyncMap
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBF03sTiafhKlqgZLQq0_YIP5bgOcdxTW4&libraries=places"
-                    loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ height: "300px" }} />}
-                    mapElement={<div style={{ height: `100%` }} />}
+                  <Map
+                    map_lat={map_lat}
+                    map_lng={map_lng}
+                    marker_lat={marker_lat}
+                    marker_lng={marker_lng}
+                    onMarkerDragEnd={this.onMarkerDragEnd}
+                    onPlaceSelected={this.onPlaceSelected}
                   />
                 </Col>
               </Row>

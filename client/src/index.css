@@ -61,7 +61,7 @@ hr {
   box-shadow: 0 5px 8px rgba(60, 138, 222, 0.3);
 }
 
-.form-control {
+/* .form-control {
   height: calc(1.2em + 0.75rem + 2px) !important;
   padding: 0.275rem !important;
   font-size: 0.575rem !important;
@@ -73,7 +73,7 @@ hr {
   height: calc(1.2em + 0.75rem + 2px) !important;
   padding: 0.275rem !important;
   font-size: 0.575rem !important;
-}
+} */
 
 label {
   font-size: 0.7rem !important;

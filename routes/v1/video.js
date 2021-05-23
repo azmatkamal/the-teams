@@ -28,14 +28,14 @@ router.post(
     }
 
     Country.findOne({
-      en_name: req.body.en_name.toLowerCase(),
+      en_name: req.body.en_name,
     }).then((user) => {
       if (user) {
         errors.en_name = "Into Video already exists";
         return res.status(400).json(errors);
       } else {
         const newCountry = new Country({
-          en_name: req.body.en_name.toLowerCase(),
+          en_name: req.body.en_name,
           ar_name: req.body.ar_name,
           en_sologan: req.body.en_sologan,
           ar_sologan: req.body.ar_sologan,
