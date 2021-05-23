@@ -51,7 +51,7 @@ class DefaultHeader extends Component {
           </NavItem> */}
         </Nav>
         <Nav className="ml-auto" navbar>
-          <NavItem className="d-md-down-none">
+          {/* <NavItem className="d-md-down-none">
             <NavLink to="#" className="nav-link">
               <button
                 className={`btn btn-${
@@ -84,7 +84,7 @@ class DefaultHeader extends Component {
                 AR
               </button>
             </NavLink>
-          </NavItem>
+          </NavItem> */}
           {/* <NavItem className="d-md-down-none">
             <NavLink to="#" className="nav-link">
               <i className="icon-location-pin"></i>

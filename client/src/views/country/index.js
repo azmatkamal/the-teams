@@ -69,17 +69,15 @@ class Countires extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps && nextProps.countries) {
-      this.setState({ countries: nextProps.countries });
+      this.setState({
+        countries: nextProps.countries.filter((c) => c.is_deleted === false),
+      });
     }
   }
 
   render() {
-    const {
-      is_table_loading,
-      is_modal_loading,
-      countries,
-      show_modal,
-    } = this.state;
+    const { is_table_loading, is_modal_loading, countries, show_modal } =
+      this.state;
 
     console.log(this.state);
 

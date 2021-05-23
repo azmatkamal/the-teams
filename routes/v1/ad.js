@@ -31,6 +31,7 @@ router.post(
 
     City.findOne({
       link: req.body.link.toLowerCase(),
+      is_deleted: false,
     }).then((user) => {
       if (user) {
         errors.link = "Main Ad already exists";
